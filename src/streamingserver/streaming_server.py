@@ -1,23 +1,35 @@
 import logging
+import random
 import time
 from flask import Flask
+from streamingserver.business_logic import \
+        generator_random_files, encode_file_to_bytes
 
 app = Flask(__name__)
 
+def generator_encoded_files(n_files):
+    ''''''
+    for file in generator_random_files(n_files):
+        seconds = random.uniform(0.001, 1.0)
+        time.sleep(seconds)
+        file_as_bytes = encode_file_to_bytes(file)
+        logging.info(f"Send file # {i+1}")
+        yield file_as_bytes
+
+
 @app.route('/')
-def index():
-    logging.info("Request received: index")
-    return "This is stupid"
+def null_request():
+    logging.info("Request received: null_request")
+    return "You have reached streamingserver"
+
 
 @app.route('/stream')
-def stream():
+@app.route('/stream/<int:n_files>')
+def stream(n_files=100):
     logging.info("Request received: stream")
-    def generate():
-        for i in range(10):
-            time.sleep(0.5)
-            logging.info(f"Send part {i+1}")
-            yield str(i)*1024
-    return generate(), {"Content-type": "text/plain"}
+    logging.info(f"Returning {n_files} files of random length and contents")
+    mimetype = {"Content-type": "application/octet-stream"}
+    return generator_encoded_files(100), mimetype
 
 
 def start_server():
@@ -26,6 +38,7 @@ def start_server():
             format="%(asctime)s %(levelname)s %(message)s"
             )
     app.run(host="127.198.3.14", port=81)
+
 
 if __name__ == "__main__":
     start_server()
