@@ -1,9 +1,10 @@
 import pytest
 import struct
 import time
-from streamingserver.business_logic import create_file_of_random_values, \
-        encode_file_to_bytes, generator_random_files, \
-        OneFile, FILE_VALUE_BYTES_SIZE
+from typing import Any
+from streamingserver.business_logic_TOO_SLOW import \
+        create_file_of_random_values, encode_file_to_bytes, \
+        generator_random_files, OneFile, FILE_VALUE_BYTES_SIZE
 
 
 def valid_files() -> list[OneFile]:
@@ -16,9 +17,11 @@ def valid_files() -> list[OneFile]:
             list(range(0,32768,1024)),
             list(range(-32768,32768,1024))
             ]
-def bad_files() -> list[OneFile]:
+
+
+def bad_files() -> list[Any]:
     bad_files = []
-    for bad_val in [None, 0.5, [], {}]:
+    for bad_val : Any in [None, 0.5, [], {}]:
         bad_files.extend([
                 [bad_val],
                 [bad_val, 1, 2, 3],
