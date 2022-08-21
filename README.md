@@ -24,11 +24,11 @@ The server will then be available on the local machine to be called. This was te
 
 Any HTTP client will be able to contact the endpoints listed above. As a preliminary test, simply enter the address "http://127.198.3.14:81/" in your browser, and check if you receive output text from streamingserver.
 
-This repository also contains an [example Python script](client_code_example/client_streamingserver.py) to call the server. The Python script uses the `requests` module and calls both the connectivity endpoint and the "/stream" endpoint. The Python script can be used as a starting point for coding a client for a streaming server such as this one.
+This repository also contains an [example Python script](client_example_code/streamingserver_client.py) to call the server. The Python script uses the `requests` module and calls both the connectivity endpoint and the "/stream" endpoint. The Python script can be used as a starting point for coding a client for a streaming server such as this one.
 
 ### Local testing with pytest
 
-There are multiple tests meant to be run via the `pytest` module. They are divided into unit tests and integration tests. As per Python standard practices, the tests will only work if the `streamingserver` package is installed. This is best done with a [Python virtual environment](https://docs.python.org/3/glossary.html#term-virtual-environment) and an [editable install]():
+There are multiple tests meant to be run via the `pytest` module. They are divided into unit tests and integration tests. As per Python standard practices, the tests will only work if the `streamingserver` package is installed. This is best done with a [Python virtual environment](https://docs.python.org/3/glossary.html#term-virtual-environment) and an [editable install](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/?highlight=editable#working-in-development-mode):
 
 1. create virtual environment
 ```$ python[X.Y] -m venv local\_venv```
