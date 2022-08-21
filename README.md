@@ -55,3 +55,7 @@ To run the tests themselves:
 All other command-line arguments for `pytest` can be found in the [pytest documentation](https://docs.pytest.org).
 
 WARNING: [Two particular integration tests](tests/integration/test_stream_contents.py#L4-L12) invoke the endpoints directly, which means they will wait for the server to response with all data before proceeding. They require several minutes (100 files with an average of 0.5-1.0 seconds of delay between each file) to complete. All other tests run in milliseconds.
+
+### Why are there two requests, "stream" and "streamSLOW"?
+
+The `/streamSLOW` endpoint actually generates a sequence of random integers, encodes them as bytes, and then sends them back in the stream to the client. The `/stream` endpoint simply generates random bytes directly and streams them to the client. I wrote `/streamSLOW` first and was displeased with its performance, and wrote `/stream` as a replacement with better performance. Theoretically speaking, `/stream` more accurately represents a situation where the server has access to files/data that are lying around and must simply stream the data directly. The slowness of generating the data and then encoding, as in `/streamSLOW`, does not represent most "streaming" use cases.
